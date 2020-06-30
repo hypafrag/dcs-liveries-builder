@@ -6,9 +6,9 @@ SET MAGICK_CODER_MODULE_PATH=%MAGICK_HOME%\modules\coders
 SET MAGICK_CODER_FILTER_PATH=%MAGICK_HOME%\modules\filters
 SET MAGICK_CONFIGURE_PATH=%MAGICK_HOME%
 
-IF NOT EXIST .venv (
-	python -m virtualenv .venv
-	.venv\Scripts\pip install -r requirements.txt
+IF NOT EXIST %~dp0\.venv (
+	python -m virtualenv %~dp0\.venv
+	%~dp0\.venv\Scripts\pip install -r %~dp0\requirements.txt
 )
 
-.venv\Scripts\python build.py %*
+%~dp0\.venv\Scripts\python %~dp0\build.py %*

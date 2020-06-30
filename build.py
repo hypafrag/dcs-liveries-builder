@@ -14,7 +14,7 @@ desc = json.load(args.desc_json)
 desc_dir = pathlib.Path(args.desc_json.name).parent
 livery_name = desc['name']
 textures_desc = desc['textures']
-livery_dir = args.out or pathlib.Path('build') / livery_name
+livery_dir = args.out or pathlib.Path('dcs_liveries_builds') / livery_name
 try:
     os.makedirs(livery_dir)
 except FileExistsError:
