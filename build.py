@@ -1,5 +1,6 @@
 from wand.image import Image
 from wand.exceptions import BlobError
+from json.decoder import JSONDecodeError
 import os
 import json
 import argparse
@@ -11,7 +12,12 @@ argparser.add_argument('--out', type=pathlib.Path, help='name of output dir. "bu
 
 args = argparser.parse_args()
 
-desc = json.load(args.desc_json)
+try:
+    desc = json.load(args.desc_json)
+except JSONDecodeError as exception:
+    print('Failed to parse', args.desc_json.name)
+    print(exception)
+    exit(1)
 desc_dir = pathlib.Path(args.desc_json.name).parent
 livery_name = desc['name']
 materials_desc = desc['textures']
@@ -38,7 +44,7 @@ def add_entry(node, texture_desc, material_property='DIFFUSE'):
             image = Image(filename=texture_file)
         except BlobError:
             print(f'Failed to load {texture_desc} for {node}[{material_property}]')
-            exit(1)
+            exit(2)
         print(f'Converting {texture_desc} for {node}[{material_property}]')
         texture = image.convert('dds')
         texture.compression = compression
